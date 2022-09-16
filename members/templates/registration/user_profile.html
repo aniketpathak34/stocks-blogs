@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Login {% endblock %}
+{% block content %}  
+
+
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700);
+
+*, *:after, *:before {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+
+    /* font-smoothing: antialiased; */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    font-family: inherit;
+
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+    font: 300 13px/1.6 Roboto, Helvetica, Arial;
+    color: #444;
+    position: relative;
+    background: #448AFF;
+    height: 100vh;
+    text-align: center;
+    /*background: #3f51b5;*/
+
+    background: url('http://ali.shahab.pk/blur.php?img=http://ali.shahab.pk/ali-shahab.jpg&x=250') no-repeat center center;
+    background-size: cover;
+}
+body:after{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,.5);
+    z-index: -1
+}
+
+ul{
+    list-style: none;
+}
+
+img {
+    -ms-interpolation-mode: bicubic;
+    vertical-align: middle;
+    border: 0;
+}
+
+.profile-card{
+    width: 300px;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    position: relative;
+    margin: auto;
+    background: rgba(255,255,255,1);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.profile-card header{
+    display: block;
+    position: relative;
+    background: rgba(255,255,255,1);
+    text-align: center;
+    padding: 30px 0 20px;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.profile-card header:before{
+    content: "";
+    position: absolute;
+    background: url('http://ali.shahab.pk/blur.php?img=http://ali.shahab.pk/ali-shahab.jpg&x=60') no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    
+}
+
+.profile-card header:after{
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+}
+
+.profile-card header img{
+    border-radius: 5%;
+    overflow: hidden;
+    width: 150px;
+    /*border: 1px solid rgba(255,255,255,.5);*/
+    box-shadow: 0 1px 0 rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.1);
+}
+
+.profile-card header h1{
+    font-weight: 200;
+    font-size: 42px;
+    color: #444;
+    letter-spacing: -3px;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-card header h2{
+    font-weight: 400;
+    font-size: 14px;
+    color: #666;
+    letter-spacing: .5px;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-card .profile-bio{
+    padding: 0 30px;
+    text-align: center;
+    color: #888;
+}
+
+.profile-card .profile-social-links{
+    display: table;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.profile-card .profile-social-links li{
+    display: table-cell;
+    width: 20.3333333333333333%
+}
+
+.profile-card .profile-social-links li a{
+    display: block;
+    text-align: center;
+    padding: 10px;
+    margin: 0 10px;
+    border-radius: 100%;
+    -webkit-transition: box-shadow 0.2s;
+    -moz-transition: box-shadow 0.2s;
+    -o-transition: box-shadow 0.2s;
+    transition: box-shadow 0.2s;
+}
+.profile-card .profile-social-links li a:hover{
+    box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12),0 1px 1px 0 rgba(0,0,0,.24);
+}
+
+.profile-card .profile-social-links li a:active{
+    box-shadow: 0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 2px 4px -1px rgba(0,0,0,.2);
+}
+
+.profile-card .profile-social-links li a img{
+    width: 100%;
+    display: block;
+}
+</style>
+<!-- this is the markup. you can change the details (your own name, your own avatar etc.) but don’t change the basic structure! -->
+
+<aside class="profile-card">
+  
+    <header>
+      
+      <!-- here’s the avatar -->
+        {% if page_user.profile_pic %}
+            <img src="{{ page_user.profile_pic.url }}">
+                    
+        {% else %}
+
+            <img src="{% static 'mainapp/images/user.png' %}">
+                    
+        {% endif %}
+
+
+      <!-- the username -->
+      <h1>{{ page_user.user.first_name }} 
+        {{ page_user.user.last_name }}</h1>
+      
+      <!-- and role or location -->
+      
+    </header>
+    
+    <!-- bit of a bio; who are you? -->
+    <div class="profile-bio">
+      
+      <p>{{ page_user.bio }}</p>
+      
+    </div>
+    
+    <!-- some social links to show off -->
+    <ul class="profile-social-links">
+      
+      <!-- twitter - el clásico  -->
+      <li>
+            {% if page_user.website_url %}
+                <a href="{{ post.author.profile.website_url }}">
+                    <img src="{% static 'mainapp/images/search.png' %}">
+                </a>
+            {% endif %}
+      </li>
+      <li>
+            {% if page_user.website_url %}
+                <a href="{{ post.author.profile.facebook_url }}">
+                    <img src="{% static 'mainapp/images/facebook.png' %}">
+                </a>
+            {% endif %}
+      </li>
+      
+      <!-- envato – use this one to link to your marketplace profile -->
+      <li>
+            {% if page_user.website_url %}
+                <a href="{{ post.author.profile.instagram_url }}">
+                    <img src="{% static 'mainapp/images/instagram.png' %}">
+                </a>
+            {% endif %}
+      </li>
+      
+      <!-- codepen - your codepen profile-->
+      <li>
+            {% if page_user.website_url %}
+                <a href="{{ post.author.profile.linkedin_url }}">
+                    <img src="{% static 'mainapp/images/linkedin.png' %}">
+                </a>
+            {% endif %}
+      </li>
+      
+      <!-- add or remove social profiles as you see fit -->
+      
+    </ul>
+    
+  </aside>
+  <!-- that’s all folks! -->
+
+
+{% endblock %}

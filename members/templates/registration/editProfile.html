@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %} Edit Settings {% endblock %}
+
+{% block content %}         
+
+
+
+
+<div class="container py-5">
+    <h1>Edit Your Profile Settings Here...!</h1>
+    <br/><br/>
+
+	<h1>Edit Profile</h1>
+	<form method="POST">
+		
+		{% csrf_token %}
+		{{ form.as_p }}                   
+		<button class="btn btn-primary" type="submit">Update Profile</button>
+	</form>
+</div>
+
+{% endblock %}
